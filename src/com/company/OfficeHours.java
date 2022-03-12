@@ -16,6 +16,7 @@ public class OfficeHours {
 
         while(true){
             synchronized (this){
+
                 while(professorIsBusy){
                     wait();
                 }

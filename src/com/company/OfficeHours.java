@@ -49,7 +49,12 @@ public class OfficeHours {
                 }else {
 
                     System.out.println("The professor answers the student's question.\n");
-                    professorIsBusy = false;
+
+                    if((Math.random() < 0.5)) {
+
+                        professorIsBusy = false;
+
+                    }
 
                     notify();
                     Thread.sleep(ThreadLocalRandom.current().nextInt(500, 2000));

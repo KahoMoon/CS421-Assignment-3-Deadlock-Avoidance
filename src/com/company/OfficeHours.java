@@ -4,12 +4,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public class OfficeHours {
 
     boolean professorHasAQuestionToAnswer;
-    boolean anotherStudentHasAQuestion;
 
     public OfficeHours() {
 
         this.professorHasAQuestionToAnswer = false;
-        this.anotherStudentHasAQuestion = false;
 
     }
 
@@ -25,12 +23,12 @@ public class OfficeHours {
                     wait();
 
                 }
+                else{
 
-                System.out.println("\nA student asks a question.");
-                professorHasAQuestionToAnswer = true;
+                    QuestionStart();
+                    QuestionDone();
 
-                notify();
-                Thread.sleep(ThreadLocalRandom.current().nextInt(500, 2000));
+                }
 
             }
         }
@@ -42,22 +40,50 @@ public class OfficeHours {
         while(true){
             synchronized (this){
 
-                if(!professorHasAQuestionToAnswer && !anotherStudentHasAQuestion){
+                if(!professorHasAQuestionToAnswer){
 
                     System.out.println("The professor naps...");
                     Thread.sleep(500);
                     wait();
 
+                }else {
+
+                    AnswerStart();
+                    AnswerDone();
+
                 }
-
-                System.out.println("The professor answers the student's question.\n");
-                professorHasAQuestionToAnswer = false;
-
-                notify();
-                Thread.sleep(ThreadLocalRandom.current().nextInt(500, 2000));
-
             }
         }
+
+    }
+
+    private void AnswerStart(){
+
+        System.out.println("The professor answers the student's question.\n");
+
+    }
+
+    private void AnswerDone() throws InterruptedException{
+
+        professorHasAQuestionToAnswer = false;
+
+        notify();
+        Thread.sleep(ThreadLocalRandom.current().nextInt(500, 2000));
+
+    }
+
+    private void QuestionStart(){
+
+        System.out.println("\nA student asks a question.");
+
+    }
+
+    private void QuestionDone() throws InterruptedException{
+
+        professorHasAQuestionToAnswer = true;
+
+        notify();
+        Thread.sleep(ThreadLocalRandom.current().nextInt(500, 2000));
 
     }
 

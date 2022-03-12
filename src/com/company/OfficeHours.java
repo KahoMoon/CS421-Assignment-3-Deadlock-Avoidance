@@ -1,4 +1,5 @@
 package com.company;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class OfficeHours {
 
@@ -20,7 +21,7 @@ public class OfficeHours {
                     wait();
                 }
 
-                System.out.print("A student asks a question.");
+                System.out.println("\nA student asks a question.");
                 professorIsBusy = true;
 
             }
@@ -35,12 +36,13 @@ public class OfficeHours {
 
                 if(professorIsBusy){
 
-                    System.out.print("The professor answers the student's question.");
+                    System.out.println("The professor answers the student's question.\n");
                     professorIsBusy = false;
 
                 }else{
 
-                    System.out.print("The professor naps...");
+                    System.out.println("The professor naps...");
+                    Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2000));
 
                 }
 

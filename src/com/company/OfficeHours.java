@@ -16,13 +16,15 @@ public class OfficeHours {
 
         while(true){
             synchronized (this){
-
                 while(professorIsBusy){
                     wait();
                 }
 
                 System.out.println("\nA student asks a question.");
                 professorIsBusy = true;
+
+                notify();
+                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2000));
 
             }
         }
@@ -34,17 +36,16 @@ public class OfficeHours {
         while(true){
             synchronized (this){
 
-                if(professorIsBusy){
-
-                    System.out.println("The professor answers the student's question.\n");
-                    professorIsBusy = false;
-
-                }else{
-
+                while(!professorIsBusy){
                     System.out.println("The professor naps...");
-                    Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2000));
-
+                    wait();
                 }
+
+                System.out.println("The professor answers the student's question.\n");
+                professorIsBusy = false;
+
+                notify();
+                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2000));
 
             }
         }

@@ -2,11 +2,11 @@ package com.company;
 
 public class OfficeHours {
 
-    boolean isBusy;
+    boolean professorIsBusy;
 
     public OfficeHours() {
 
-        this.isBusy = false;
+        this.professorIsBusy = false;
 
     }
 
@@ -16,12 +16,12 @@ public class OfficeHours {
         while(true){
             synchronized (this){
 
-                while(isBusy){
+                while(professorIsBusy){
                     wait();
                 }
 
-                System.out.print("A student asks a question");
-                isBusy = true;
+                System.out.print("A student asks a question.");
+                professorIsBusy = true;
 
             }
         }
@@ -33,7 +33,16 @@ public class OfficeHours {
         while(true){
             synchronized (this){
 
-                while
+                if(professorIsBusy){
+
+                    System.out.print("The professor answers the student's question.");
+                    professorIsBusy = false;
+
+                }else{
+
+                    System.out.print("The professor naps...");
+
+                }
 
             }
         }

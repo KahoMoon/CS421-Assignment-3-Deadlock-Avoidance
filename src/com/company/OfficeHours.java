@@ -3,11 +3,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class OfficeHours {
 
-    boolean professorIsBusy;
+    boolean professorHasAQuestionToAnswer;
+    boolean anotherStudentHasAQuestion;
 
     public OfficeHours() {
 
-        this.professorIsBusy = false;
+        this.professorHasAQuestionToAnswer = false;
+        this.anotherStudentHasAQuestion = false;
 
     }
 
@@ -17,7 +19,7 @@ public class OfficeHours {
         while(true){
             synchronized (this){
 
-                if(professorIsBusy){
+                if(professorHasAQuestionToAnswer){
 
                     Thread.sleep(500);
                     wait();
@@ -25,7 +27,7 @@ public class OfficeHours {
                 }
 
                 System.out.println("\nA student asks a question.");
-                professorIsBusy = true;
+                professorHasAQuestionToAnswer = true;
 
                 notify();
                 Thread.sleep(ThreadLocalRandom.current().nextInt(500, 2000));
@@ -40,26 +42,19 @@ public class OfficeHours {
         while(true){
             synchronized (this){
 
-                if(!professorIsBusy){
+                if(!professorHasAQuestionToAnswer && !anotherStudentHasAQuestion){
 
                     System.out.println("The professor naps...");
                     Thread.sleep(500);
                     wait();
 
-                }else {
-
-                    System.out.println("The professor answers the student's question.\n");
-
-                    if((Math.random() < 0.5)) {
-
-                        professorIsBusy = false;
-
-                    }
-
-                    notify();
-                    Thread.sleep(ThreadLocalRandom.current().nextInt(500, 2000));
-
                 }
+
+                System.out.println("The professor answers the student's question.\n");
+                professorHasAQuestionToAnswer = false;
+
+                notify();
+                Thread.sleep(ThreadLocalRandom.current().nextInt(500, 2000));
 
             }
         }

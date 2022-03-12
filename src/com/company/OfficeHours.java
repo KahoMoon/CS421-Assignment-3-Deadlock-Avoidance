@@ -17,7 +17,7 @@ public class OfficeHours {
         while(true){
             synchronized (this){
 
-                while(professorIsBusy){
+                if(professorIsBusy){
                     wait();
                 }
 
@@ -37,7 +37,7 @@ public class OfficeHours {
         while(true){
             synchronized (this){
 
-                while(!professorIsBusy){
+                if(!professorIsBusy){
                     System.out.println("The professor naps...");
                     wait();
                 }
